@@ -1,0 +1,108 @@
+
+<html>
+
+    <head>
+    <title>OPT Code Generator</title>
+    <style>
+    .title{ text-align:center; margin:20px auto; }
+    h1{ margin-bottom:5px; }
+    textarea{ width:100%; }
+    body{ margin-bottom:200px; font-family:sans-serif;; font-size:13px; }
+    .section{ background:#eee; margin-bottom:10px; padding:20px 10px; }
+    .section > label{ padding:10px 10px 10px 0; font-size:20px; }
+    .fields{ margin-left:25px; }
+    .fields > h2{ font-size:15px; }
+    .withScript, .withJQuery{ float:right; font-size:13px; }
+    input[type="text"]{ padding:5px 5px; }
+    .jira{ font-size:1.2em; margin-top:5px; }
+    .versions{ margin-top:5px; margin-bottom:30px; }
+    h2{ margin-bottom:5px; }
+    label{ user-select: none; }
+    .withJQuery{ color:#DDD; }
+    </style>
+    
+    </head>
+    
+    <body>
+    
+    <div class="title">
+    <h1>OPT Code Generator</h1>
+    <small>Last update: 4 Sep, 2019</small>
+    </div>
+    
+    <div class="wrap">
+    
+        <div class="section">
+            <label><input type="checkbox" value="base" v-model="libs" disabled /> Test Information</label>
+            <div class="fields" v-if="libs.indexOf('base')>-1">
+    
+                <input class="jira" type="text" v-model="jira" placeholder="JIRA (e.g. OPT-1234)" />
+    
+                <div class="versions">
+                    <label><input type="radio" value="Control" v-model="picked" /> Control</label>
+                    <label><input type="radio" value="Exp" v-model="picked" /> Experience</label>
+                </div>
+                
+                <h2>On-load tracking</h2>
+                <label><input type="checkbox" value="AA" v-model="tracking" /> Adobe Analytics</label>
+                <label><input type="checkbox" value="AT" v-model="tracking" /> Target Mbox</label>
+            </div>
+        </div>
+    
+        <div class="section">
+            <label><input type="checkbox" value="css" v-model="libs" /> CSS</label>
+            
+            <div class="fields" v-if="libs.indexOf('css')>-1">
+                <h2>Definitions</h2>
+                <textarea v-model="csscode" rows="5"></textarea>
+            </div>
+        </div>
+        
+        <div class="section">
+            <label><input type="checkbox" value="html" v-model="libs" /> Edit HTML</label>
+            
+            <div class="fields" v-if="libs.indexOf('html')>-1">
+                <h2>Element to edit: </h2>
+                <input v-model="htmlcsssel" placeholder="CSS Selector (e.g. #cta)" />
+                <h2>HTML</h2>
+                <textarea v-model="htmlcode" rows="5"></textarea>
+            </div>
+        </div>
+        
+        <div class="section">
+            <label><input type="checkbox" value="click" v-model="libs" /> Track Click</label>
+            <div class="fields" v-if="libs.indexOf('click')>-1">
+                <h2>Element CSS Selector: </h2>
+                <input v-model="clickcsssel" placeholder="CSS Selector (e.g. #cta)" />
+                <h2>Element Name: </h2>
+                <input v-model="elname" placeholder="Name with no space (optional)" />
+                <h2>Tracking</h2>
+                <label><input type="checkbox" value="AA" v-model="clickTrack" /> Adobe Analytics</label>
+                <label><input type="checkbox" value="AT" v-model="clickTrack" /> Target Mbox</label>
+            </div>
+        </div>
+        
+        <div class="section">
+            <label><input type="checkbox" value="function" v-model="libs" /> Custom Function</label>
+            <div class="fields" v-if="libs.indexOf('function')>-1">
+                <h2>Element to wait / change (optional): </h2>
+                <input v-model="csssel" placeholder="CSS Selector (e.g. #cta)" />
+                <h2>Javascript (refer to the above element by ot)</h2>
+                <textarea v-model="jscode" rows="10"></textarea>
+            </div>
+        </div>
+        
+        <div>
+            Code:
+            <label class="withScript"><input type="checkbox" value="yes" v-model="wrapCode" /> With &lt;script&gt;</label>
+            <label class="withJQuery"><input type="checkbox" value="yes" v-model="jquery" disabled /> With jQuery (in dev)&nbsp;</label>
+            <textarea id="code" v-model="result" @focus="$event.target.select()" data-adaptheight></textarea>
+        </div>
+    
+    </div>
+    
+    <script src="./js/vue.js"></script>
+    <script src="./js/init.js"></script>
+    
+    </body>
+    </html>    
